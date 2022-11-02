@@ -6,12 +6,12 @@ local Window = OrionLib:MakeWindow({Name = "DOORS by Dec3ptions", HidePremium = 
 
 
 local tabs_Entities = Window:MakeTab({
-	Name = "Entities",
+	Name = "Legacy Entities",
 	Icon = "rbxassetid://4483345998",
 	PremiumOnly = false
 })
 local tabs_CustomEntities = Window:MakeTab({
-	Name = "Custom",
+	Name = "Custom Entities",
 	Icon = "rbxassetid://4483345998",
 	PremiumOnly = false
 })
@@ -22,6 +22,11 @@ local tabs_Visuals = Window:MakeTab({
 })
 local tabs_Utilities = Window:MakeTab({
 	Name = "Utilities",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+local tabs_Functions = Window:MakeTab({
+	Name = "Functions",
 	Icon = "rbxassetid://4483345998",
 	PremiumOnly = false
 })
@@ -145,24 +150,34 @@ tabs_Entities:AddButton({
 tabs_Entities:AddButton({
 	Name = "SeekEyes",
 	Callback = function()
-		local a = game.Players.LocalPlayer.PlayerGui.MainUI.Initiator.Main_Game
-		require(game.ReplicatedStorage.ClientModules.EntityModules.Seek).tease(nil, workspace.CurrentRooms[game.Players.LocalPlayer:GetAttribute("CurrentRoom")], 100)
+		local count = 0
+		repeat
+			require(game:GetService("ReplicatedStorage").ClientModules.EntityModules.Seek).tease(require(game.Players.LocalPlayer.PlayerGui.MainUI.Initiator.Main_Game), workspace.CurrentRooms[game.Players.LocalPlayer:GetAttribute("CurrentRoom")], 999)
+			count +=1
+			wait(.01)
+		until count = 10
 	end
 })
 tabs_Entities:AddButton({
 	Name = "SeekEyes NEXTDOOR",
 	Callback = function()
         game.ReplicatedStorage.GameData.LatestRoom.Changed:Wait()
-		local a = game.Players.LocalPlayer.PlayerGui.MainUI.Initiator.Main_Game
-		require(game.ReplicatedStorage.ClientModules.EntityModules.Seek).tease(nil, workspace.CurrentRooms[game.Players.LocalPlayer:GetAttribute("CurrentRoom")], 100)
+		repeat
+			require(game:GetService("ReplicatedStorage").ClientModules.EntityModules.Seek).tease(require(game.Players.LocalPlayer.PlayerGui.MainUI.Initiator.Main_Game), workspace.CurrentRooms[game.Players.LocalPlayer:GetAttribute("CurrentRoom")], 999)
+			count +=1
+			wait(.01)
+		until count = 10
 	end
 })
 tabs_Entities:AddButton({
 	Name = "SeekEyes EVERYDOOR",
 	Callback = function()
         game.ReplicatedStorage.GameData.LatestRoom.Changed:Connect(function()
-		    local a = game.Players.LocalPlayer.PlayerGui.MainUI.Initiator.Main_Game
-		    require(game.ReplicatedStorage.ClientModules.EntityModules.Seek).tease(nil, workspace.CurrentRooms[game.Players.LocalPlayer:GetAttribute("CurrentRoom")], 100)
+		    repeat
+				require(game:GetService("ReplicatedStorage").ClientModules.EntityModules.Seek).tease(require(game.Players.LocalPlayer.PlayerGui.MainUI.Initiator.Main_Game), workspace.CurrentRooms[game.Players.LocalPlayer:GetAttribute("CurrentRoom")], 999)
+				count +=1
+				wait(.01)
+			until count = 10
         end)
 	end
 })
@@ -240,6 +255,16 @@ tabs_Visuals:AddButton({
 			end
 	end
 })
+tabs_Visuals:AddButton({
+	Name = "HeartAttack NEXTROOM",
+	Callback = function()
+		game.ReplicatedStorage.GameData.LatestRoom.Changed:Wait()
+		for i = 1,30,1 do
+			wait(1)
+			firesignal(game.ReplicatedStorage.Bricks.ClutchHeartbeat.OnClientEvent)
+			end
+	end
+})
 -- \ HeartMinigame
 
 
@@ -251,29 +276,27 @@ tabs_Visuals:AddButton({
 
 
 -- / FullBright
-tabs_Utilities:AddButton({
-	Name = "FullBright",
-	Callback = function()
-        while wait do
-            function brighten()
-                game.Lighting.Ambient = Color3.new(1, 1, 1)
-                game.Lighting.ColorShift_Bottom = Color3.new(1, 1, 1)
-                game.Lighting.ColorShift_Top = Color3.new(1, 1, 1)
-            end
-            brighten()
-            Light.LightingChanged:Connect(brighten)
-            wait(0.1)
-        end
-	end
-})
+
 -- \ FullBright
  
-OrionLib:Init()
-tabs_Entities:AddToggle({
-	Name = "Toggle",
-	Default = true,
-	Save = true,
-	Flag = "toggle"
+
+
+-- \\ UTILITIES TAB
+
+-- // FUNCTIONS TAB
+
+
+
+-- / Die
+tabs_Functions:AddButton({
+	Name = "Die",
+	Callback = function()
+		game.Players.LocalPlayer.Character.Humanoid.Health = 0
+	end
 })
-print(OrionLib.Flags["toggle"].Value)
-OrionLib:Destroy()
+-- \ Die
+ 
+
+
+-- \\ FUNCTIONS TAB
+OrionLib:Init()
