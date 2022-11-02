@@ -256,7 +256,7 @@ tabs_Visuals:AddButton({
 	end
 })
 tabs_Visuals:AddButton({
-	Name = "HeartAttack NEXTROOM",
+	Name = "HeartAttack NEXTDOOR",
 	Callback = function()
 		game.ReplicatedStorage.GameData.LatestRoom.Changed:Wait()
 		for i = 1,30,1 do
